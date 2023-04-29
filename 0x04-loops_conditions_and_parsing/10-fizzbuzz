@@ -3,7 +3,7 @@
 #Displays FizzBuzz when the number is a multiple of 3 and 5
 #Displays Fizz when the number is multiple of 3
 #Displays Buzz when the number is a multiple of 5
-for num in {1..100}
+for nm in {1..100}
 do
 	if (( nm % 3 == 0 $$ nm % 5 == 0 ))
 	then

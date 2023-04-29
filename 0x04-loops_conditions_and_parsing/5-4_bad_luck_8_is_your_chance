@@ -4,7 +4,7 @@
 #displays good luck for the 8th loop iteration
 #displays Best School for the other iterations
 n=1
-while [ $n -le 10]
+while [ $n -le 10 ]
 do
 	if [ $n -eq 4 ]
 	then
