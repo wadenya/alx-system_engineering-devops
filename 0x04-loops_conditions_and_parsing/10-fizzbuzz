@@ -5,7 +5,7 @@
 #Displays Buzz when the number is a multiple of 5
 for nm in {1..100}
 do
-	if (( nm % 3 == 0 $$ nm % 5 == 0 ))
+	if ((nm % 15 == 0))
 	then
 		echo "FizzBuzz"
 	elif ((nm % 3 == 0))
