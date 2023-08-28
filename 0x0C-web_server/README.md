@@ -1,0 +1,5 @@
+0x0C. Web server
+PATH_TO_FILE=$1
+IP=$2
+USERNAME=$3
+PATH_TO_SSH_KEY=$4
