@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+#Double the number of webservers
+
+sudo systemctl enable nginx
+sudo systemctl start nginx
+
+server_block_path="/etc/ngnix/sites-available/default"
+if ! grep -q "add_header X-Served-By" "$server_block_path"; then
+    sudo sed -i "/server_name -;/a \\\tadd_header X-Served-By \$hostname;" $server_block-path
+fi
+
+sudo systemctl restart nginx
