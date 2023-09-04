@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 #Double the number of webservers
 
+sudo apt update
+
+if ! dpkg -l | grep nginx > /dev/null 2>&1; then
+    sudo apt install -y nginx
+fi
+
 sudo systemctl enable nginx
 sudo systemctl start nginx
 
