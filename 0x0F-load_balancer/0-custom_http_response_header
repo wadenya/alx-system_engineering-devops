@@ -1,18 +1,20 @@
 #!/usr/bin/env bash
 #Double the number of webservers
 
-sudo apt update
+var=$(hostname)
+nwstrng1="error_page 404 \/custom_404.html;\n location \/redirect_me {\n return 301 \$scheme:\/\/www.google.com;"
+nwstrng2="server {\n\tadd_header X-Served-By $var;"
 
-if ! dpkg -l | grep nginx > /dev/null 2>&1; then
-    sudo apt install -y nginx
-fi
+apt-get update -y
+apt-get install nginx -y
 
-sudo systemctl enable nginx
-sudo systemctl start nginx
+echo "Hello World!" > /usr/share/nginx/html/index.html
+mkdir -p /var/www/html
+echo "Ceci n'est pas une page" > /var/www/html/custom_404.html
 
 server_block_path="/etc/ngnix/sites-available/default"
 if ! grep -q "add_header X-Served-By" "$server_block_path"; then
-    sudo sed -i "/server_name -;/a \\\tadd_header X-Served-By \$hostname;" $server_block-path
+    sudo sed -i "/server_name -;/a \\\tadd_header X-Served-By \$hostname;" $server_block-path    v
 fi
 
-sudo systemctl restart nginx
+sudo systemctl start nginx
