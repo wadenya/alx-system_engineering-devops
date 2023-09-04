@@ -16,4 +16,4 @@ server_block_path="/etc/ngnix/sites-avilable/default"
 sudo sed -i -E "s/^[^#]+location \/ \{/$nwstrng1/" server_block_path
 sudo sed -i -E "s/^server \{/$nwstrng2/" server_block_path
 
-sudo systemctl start nginx
+sudo service nginx start
