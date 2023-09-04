@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
-#Installs and configures HAproxy in a load balancer server
+#Install your load balancer
 
-sudo apt update
-sudo apt install -y haproxy
+apt-get install --no-install-recommends software-properties-common
+add-apt-repository ppa:vbernat/haproxy-2.0
+apt-get update
+apt-get install haproxy=2.0.\*
 
 # Enable HAProxy to start on boot
 sudo systemctl enable haproxy
