@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+#World wide web
+# Function to fetch and display subdomain details
+
+subdomain_details() {
+    local domain="$1"
+    local subdomain="$2"
+    
+    result=$(dig "$subdomain.$domain" | grep -A1 'ANSWER SECTION:')
+    record_type=$(echo "$result" | awk 'NR==2 {print $4}')
+    destination=$(echo "$result" | awk 'NR==2 {print $5}')
+    
+    echo "The subdomain $subdomain is a $record_type record and points to $destination"
+}
+
+# Main logic
+domain="$1"
+subdomain="$2"
+
+if [ -z "$subdomain" ]; then
+    # If no subdomain is provided, show details for the four mentioned subdomains
+    subdomain_details "$domain" "www"
+    subdomain_details "$domain" "lb-01"
+    subdomain_details "$domain" "web-01"
+    subdomain_details "$domain" "web-02"
+else
+    subdomain_details "$domain" "$subdomain"
+fi
