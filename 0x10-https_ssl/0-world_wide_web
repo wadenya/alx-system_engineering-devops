@@ -1,28 +1,19 @@
 #!/usr/bin/env bash
 #World wide web
-# Function to fetch and display subdomain details
+# Function to fetch and display domain details
 
-subdomain_details() {
-    local domain="$1"
-    local subdomain="$2"
-    
-    result=$(dig "$subdomain.$domain" | grep -A1 'ANSWER SECTION:')
-    record_type=$(echo "$result" | awk 'NR==2 {print $4}')
-    destination=$(echo "$result" | awk 'NR==2 {print $5}')
-    
-    echo "The subdomain $subdomain is a $record_type record and points to $destination"
+domain_details () {
+    line=$(dig "$2"."$1" | grep -A1 'ANSWER SECTION:' | tr '\t' '\n' | tail -2 | tr '\n' ' ')
+    echo "$2 $line" | awk '{print "The subdomain " $1 " is a " $2 " record and points to " $3}'
 }
 
-# Main logic
-domain="$1"
-subdomain="$2"
-
-if [ -z "$subdomain" ]; then
-    # If no subdomain is provided, show details for the four mentioned subdomains
-    subdomain_details "$domain" "www"
-    subdomain_details "$domain" "lb-01"
-    subdomain_details "$domain" "web-01"
-    subdomain_details "$domain" "web-02"
-else
-    subdomain_details "$domain" "$subdomain"
+if [ "$#" == 1 ]
+then
+  domain_details "$1" "www"
+  domain_details "$1" "lb-01"
+  domain_details "$1" "web-01"
+  domain_details "$1" "web-02"
+elif [ "$#" == 2 ]
+then
+  domain_details "$1" "$2"
 fi
