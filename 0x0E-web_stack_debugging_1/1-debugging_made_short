@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 #Make it sweet and short
 
-apt-get -y install nginx
-nginx -s stop
-sed -i 's/^listen .*/listen 80;/' /etc/nginx/sites-available/default
-nginx
+ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+#restart nginx
+service nginx start
+
+#terminate first nginx process ID
+kill "$(pgrep 'nginx' | head -1)"
