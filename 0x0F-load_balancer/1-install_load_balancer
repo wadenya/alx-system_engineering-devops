@@ -1,27 +1,32 @@
 #!/usr/bin/env bash
-#Install your load balancer
+# script to install and configure HAProxy on lb-01 server
+# Configure HAProxy to send traffic to web-01 and web-02 servers
+# Distribute requests using a roundrobin algorithm
+# Make sure that HAProxy can be managed via an init script
 
-apt-get install --no-install-recommends software-properties-common
-add-apt-repository -y ppa:vbernat/haproxy-2.0
-apt-get update
-apt-get install -y haproxy=2.0.\*
+# Install and configure HAproxy on my lb-01 server.
+sudo apt-get -y update
+apt-get -y install haproxy
 
-# Enable HAProxy to start on boot
-echo "ENABLED=1" > /etc/default/haproxy
+# edit config file
+server_config=\
+"
+frontend  wadenya_frontend
+        bind *:80
+        mode http
+        default_backend wadenya_backend
+backend wadenya_backend
+        balance roundrobin
+        server 176572-web-01 100.25.183.231:80 check
+        server 176572-web-02 18.234.192.242:80 check
+"
+echo "$server_config" | sudo tee -a /etc/haproxy/haproxy.cfg
 
-sudo cp /etc/haproxy/haproxy.cfg /etc/haproxy/haproxy.cfg.bak
-# Configure HAProxy for web-01 and web-02 with roundrobin algorithm
-haproxy_cfg="/etc/haproxy/haproxy.cfg"
+# enable haproxy to be started by init script
+echo "ENABLED=1" | sudo tee -a /etc/default/haproxy
 
-# Append our configuration
-echo "frontend http_front
-    bind *:80
-    stats uri /haproxy?stats
-    default_backend webservers
+# Testing the HAproxy configuration file
+sudo haproxy -c -f /etc/haproxy/haproxy.cfg
 
-backend webservers
-    balance roundrobin
-    server 200656-web-01 3.89.160.21:80 check
-    server 200656-web-02 54.197.132.144:80 check" | sudo tee -a $haproxy_cfg
-
-service haproxy start
+# Restart the Nginx service
+sudo service haproxy restart
