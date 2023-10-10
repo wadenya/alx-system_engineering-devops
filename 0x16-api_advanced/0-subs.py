@@ -1,6 +1,5 @@
 #!/usr/bin/python3
-"""
-return How many subs?
+"""return How many subs?
 """
 
 import requests
