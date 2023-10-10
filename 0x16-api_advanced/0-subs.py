@@ -5,6 +5,7 @@ return How many subs?
 
 import requests
 
+
 def number_of_subscribers(subreddit):
     """returns number of subscribers for given subreddit"""
     if subreddit is None or type(subreddit) is not str:
