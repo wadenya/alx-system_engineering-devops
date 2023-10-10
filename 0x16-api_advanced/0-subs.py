@@ -3,7 +3,7 @@
 return How many subs?
 """
 
-import request
+import requests
 
 def number_of_subscribers(subreddit):
     """returns number of subscribers for given subreddit"""
